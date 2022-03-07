@@ -3,11 +3,11 @@ import { Button, Form, Input } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
-import { ADD_CONTACT, GET_CONTACTS } from '../../queries'
+import { ADD_PERSON, GET_PEOPLE } from '../../queries'
 
-const AddContact = () => {
+const AddPerson = () => {
   const [id] = useState(uuidv4())
-  const [addContact] = useMutation(ADD_CONTACT)
+  const [addPerson] = useMutation(ADD_PERSON)
   const [form] = Form.useForm()
   const [, forcedUpdate] = useState()
 
@@ -18,7 +18,7 @@ const AddContact = () => {
   const onFinish = values => {
     const { firstName, lastName } = values
 
-    addContact({
+    addPerson({
       variables: {
         id,
         firstName,
@@ -26,20 +26,20 @@ const AddContact = () => {
       },
       optimisticResponse: {
         __typename: 'Mutation',
-        addContact: {
-          __type: 'Contact',
+        addPerson: {
+          __type: 'person',
           id,
           firstName,
           lastName
         }
       },
-      update: (proxy, { data: { addContact } }) => {
-        const data = proxy.readQuery({ query: GET_CONTACTS })
+      update: (proxy, { data: { addPerson } }) => {
+        const data = proxy.readQuery({ query: GET_PEOPLE })
         proxy.writeQuery({
-          query: GET_CONTACTS,
+          query: GET_PEOPLE,
           data: {
             ...data,
-            contacts: [...data.contacts, addContact]
+            people: [...data.people, addPerson]
           }
         })
       }
@@ -59,13 +59,13 @@ const AddContact = () => {
         name='firstName'
         rules={[{ required: true, message: 'Please input your first name!' }]}
       >
-        <Input placeholder='i.e. John' />
+        <Input placeholder='i.e. Paul' />
       </Form.Item>
       <Form.Item
         name='lastName'
         rules={[{ required: true, message: 'Please input your last name!' }]}
       >
-        <Input placeholder='i.e. Smith' />
+        <Input placeholder='i.e. Graham' />
       </Form.Item>
       <Form.Item shouldUpdate={true}>
         {() => (
@@ -77,7 +77,7 @@ const AddContact = () => {
               form.getFieldError().filter(({ errors }) => errors.length).length
             }
           >
-            Add Contact
+            Add a Person
           </Button>
         )}
       </Form.Item>
@@ -85,4 +85,4 @@ const AddContact = () => {
   )
 }
 
-export default AddContact
+export default AddPerson
