@@ -49,12 +49,13 @@ const AddPerson = () => {
   return (
     <Form
       form={form}
-      name='add-contact-form'
+      name='add-person-form'
       onFinish={onFinish}
       layout='inline'
       size='large'
       style={{ marginBottom: '40px' }}
     >
+    
       <Form.Item
         name='firstName'
         rules={[{ required: true, message: 'Please input your first name!' }]}

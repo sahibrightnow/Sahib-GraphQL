@@ -40,7 +40,7 @@ export const REMOVE_PERSON = gql`
   }
   `
 
- export const GET_PERSON_CARS = gql`
+export const GET_PERSON_CARS = gql`
 query personAndHisCars($personId: String!) {
   personAndHisCars(id: $personId) {
     car {
@@ -60,18 +60,20 @@ query personAndHisCars($personId: String!) {
 }
 `
 export const GET_CARS = gql`
-query allCars {
-  id 
-  personId
-  year
-  make
-  model
-  price
+{
+  allCars {
+    id 
+    personId
+    year
+    make
+    model
+    price
+  }
 }
 `
 export const ADD_CAR = gql`
-mutation  AddCar(id: String!, personId: String!, year: Int!, make: String! price: Int! model:String!) {
-  addCar(id: String!, personId: String!, year: Int!, make: String! price: Int! model:String!) {
+mutation AddCar($id: String!, $personId: String!, $year: Int!, $make: String! $price: Int! $model:String!) {
+  addCar( id: $id, personId: $personId, year: $year, make: $make, price: $price, model: $model) {
     id
     year
     make
@@ -80,5 +82,31 @@ mutation  AddCar(id: String!, personId: String!, year: Int!, make: String! price
     personId
 
   }
+}
+`
+export const REMOVE_CAR = gql`
+mutation RemoveCar($id: String!) {
+  removeCar( id: $id ) {
+    id
+    year
+    make
+    model
+    price
+    personId
+  }
 }`
+
+export const UPDATE_CAR = gql`
+mutation UpdateCar($id: String!, $personId: String!, $year: Int!, $make: String! $price: Int! $model:String!) {
+  updateCar(id: $id, personId: $personId, year: $year, make: $make, price: $price, model: $model) {
+    id
+    year
+    make
+    model
+    price
+    personId
+  }
+}
+`
+
 
